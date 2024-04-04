@@ -7,6 +7,7 @@
 #include <QTextBrowser>
 #include <QVBoxLayout>
 #include <QJsonObject>
+#include <configdialog.h>
 
 class MainWindow : public QMainWindow
 {
@@ -14,7 +15,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    void updateGraphicsScene(int gridSize, const QString &folderPath);
+    void updateGraphicsScene(const ConfigDialog &);
 
 private:
     QGraphicsView *view; // 添加一个QGraphicsView成员变量
@@ -26,7 +27,21 @@ private:
     QString imagePath;
 
     //存储配置文件
-    QJsonObject configData = [](){QJsonObject defaultState;defaultState["ConfigNotSaved"] = true; return defaultState;}();
+    QJsonObject configData = [](){
+        QJsonObject defaultState;
+        defaultState["ConfigNotSaved"] = true;
+        return defaultState;
+    }();
+
+    static void openHelpDocument();
+
+    // 保存配置，返回是否保存成功，参数为是否另存为
+    bool saveConfig(bool as);
+    // 显示是否保存对话框，如果点击取消返回0,否则1
+    bool showSaveDialog();
+
+    QString savedConfigPath = "";
+    bool configSaved = true;
 
 private slots:
     void openConfigDialog(); // 声明槽函数

@@ -24,10 +24,18 @@ ConfigDialog::ConfigDialog(QWidget *parent, const QJsonObject &status) : QDialog
     QHBoxLayout *AxisLayout = new QHBoxLayout();
     xAxisLabel = new QLineEdit();
     yAxisLabel = new QLineEdit();
-    AxisLayout->addWidget(new QLabel(tr("横轴标签")));
+    AxisLayout->addWidget(new QLabel(tr("列标签")));
     AxisLayout->addWidget(xAxisLabel);
-    AxisLayout->addWidget(new QLabel(tr("纵轴标签")));
+    AxisLayout->addWidget(new QLabel(tr("行标签")));
     AxisLayout->addWidget(yAxisLabel);
+
+    QHBoxLayout *SecAxisLayout = new QHBoxLayout();
+    secXAxisLabel = new QLineEdit();
+    secYAxisLabel = new QLineEdit();
+    SecAxisLayout->addWidget(new QLabel(tr("次级列标签")));
+    SecAxisLayout->addWidget(secXAxisLabel);
+    SecAxisLayout->addWidget(new QLabel(tr("次级行标签")));
+    SecAxisLayout->addWidget(secYAxisLabel);
 
     // 添加变量部分
     QPushButton *addVariableButton = new QPushButton(tr("添加变量"));
@@ -41,6 +49,7 @@ ConfigDialog::ConfigDialog(QWidget *parent, const QJsonObject &status) : QDialog
     mainLayout->addLayout(folderLayout);
     mainLayout->addLayout(pictureLayout);
     mainLayout->addLayout(AxisLayout);
+    mainLayout->addLayout(SecAxisLayout);
     mainLayout->addWidget(addVariableButton);
     mainLayout->addWidget(scrollArea);
 
@@ -84,8 +93,8 @@ std::map<QString, VariableConfig> ConfigDialog::getVariableConfigs() const {
             // 处理 xx-xx 形式，有一个 - 就认为是这个格式
             QString range = rangeEdit->text();
             QStringList ranges;
-            if(range.contains("-")) {
-                ranges = range.split("-");
+            if(range.contains("~")) {
+                ranges = range.split("~");
                 int max = ranges[1].toInt();
                 int min = ranges[0].toInt();
                 if (max < min)
@@ -108,9 +117,8 @@ std::map<QString, VariableConfig> ConfigDialog::getVariableConfigs() const {
     return configs;
 }
 
-std::vector<std::pair<QString, int>> ConfigDialog::getImageNameConfig(){
+std::vector<std::pair<QString, int>> ConfigDialog::getStrVarConfig(const QString& name){
     std::vector<std::pair<QString, int>> nameCfg;
-    QString name = this->pictureName->text();
     int is_var = 0;
     int is_var_pre = 0;
     int i = -1;
@@ -122,13 +130,13 @@ std::vector<std::pair<QString, int>> ConfigDialog::getImageNameConfig(){
 
         // 进入变量或字符串范围
         if( is_var != is_var_pre ) {
-            nameCfg.push_back(std::pair(name.mid(i+1,e - i - 1), !is_var));
+            nameCfg.push_back(std::pair(name.mid(i+1,e - i - 1), is_var_pre));
             i = e;
         }
         is_var_pre = is_var;
     }
     // 处理末尾字符
-    nameCfg.push_back(std::pair(name.right(name.length() - i - 1), is_var));
+    nameCfg.push_back(std::pair(name.right(name.length() - i - 1), is_var_pre));
 
     return nameCfg;
 }
@@ -140,6 +148,8 @@ QJsonObject ConfigDialog::saveState() const {
     state["pictureName"] = pictureName->text();
     state["xAxisLabel"] = xAxisLabel->text();
     state["yAxisLabel"] = yAxisLabel->text();
+    state["secXAxisLabel"] = secXAxisLabel->text();
+    state["secYAxisLabel"] = secYAxisLabel->text();
 
     QJsonArray variablesArray;
     for (auto *widget : variableWidgets) {
@@ -163,6 +173,8 @@ void ConfigDialog::restoreState(const QJsonObject &state) {
     pictureName->setText(state["pictureName"].toString());
     xAxisLabel->setText(state["xAxisLabel"].toString());
     yAxisLabel->setText(state["yAxisLabel"].toString());
+    secXAxisLabel->setText(state["secXAxisLabel"].toString());
+    secYAxisLabel->setText(state["secYAxisLabel"].toString());
 
     QJsonArray variablesArray = state["variables"].toArray();
     for (auto variableValue : variablesArray) {

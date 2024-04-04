@@ -28,7 +28,7 @@ public:
     VariableWidget(QWidget *parent = nullptr) : QWidget(parent) {
         QHBoxLayout *layout = new QHBoxLayout(this);
         QComboBox *comboBox = new QComboBox();
-        comboBox->addItems(QStringList() << "定值" << "横轴" << "纵轴" << "滑动条");
+        comboBox->addItems(QStringList() << "定值" << "列" << "行"); // << "滑动条");
         QLineEdit *nameEdit = new QLineEdit();
         QLineEdit *rangeEdit = new QLineEdit();
         QPushButton *deleteButton = new QPushButton("删除");
@@ -36,11 +36,12 @@ public:
         // 设置占位符文本
         nameEdit->setPlaceholderText("变量名");
         nameEdit->setObjectName("nameEdit");
+        nameEdit->setMaximumWidth(80);
         rangeEdit->setPlaceholderText("值/范围");
         rangeEdit->setObjectName("rangeEdit");
 
-        layout->addWidget(comboBox);
         layout->addWidget(nameEdit);
+        layout->addWidget(comboBox);
         layout->addWidget(rangeEdit);
         layout->addWidget(deleteButton);
 
@@ -60,8 +61,6 @@ private slots:
 
 struct VariableConfig {
     int type;       // 变量类型
-    //QString name;       // 变量名
-    //QString range;
     QStringList range; // 变量范围
 };
 
@@ -96,9 +95,12 @@ public:
     QString getImagePath() const { return folderPathEdit->text(); }
     QString getXAxisLabel() const { return xAxisLabel->text(); }
     QString getYAxisLabel() const { return yAxisLabel->text(); }
+    QString getSecXAxisLabel() const { return secXAxisLabel->text(); }
+    QString getSecYAxisLabel() const { return secYAxisLabel->text(); }
 
-    // 获得图片名代表的格式，first是字符串，second表示这个字符串是否是变量，是变量的话会在之后的环节替换为值
-    std::vector<std::pair<QString, int>> getImageNameConfig();
+    // 获得一个QString代表的格式，first是字符串，second表示这个字符串是否是变量，是变量的话会在之后的环节替换为值
+    // 变量以 `' 括起来
+    static std::vector<std::pair<QString, int>> getStrVarConfig(const QString&);
 
 private slots:
     void selectImagePath() {
@@ -128,6 +130,9 @@ private:
 
     QLineEdit *xAxisLabel;
     QLineEdit *yAxisLabel;
+
+    QLineEdit *secXAxisLabel;
+    QLineEdit *secYAxisLabel;
 
     QVBoxLayout *variablesLayout;
     QList<VariableWidget *> variableWidgets;

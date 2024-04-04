@@ -1,0 +1,10 @@
+<RCC>
+    <qresource lang="zh_cn" prefix="/help">
+        <file>readme.md</file>
+    </qresource>
+    <qresource prefix="/icon">
+        <file>icon.png</file>
+        <file>icon.ico</file>
+        <file>config.svg</file>
+    </qresource>
+</RCC>
