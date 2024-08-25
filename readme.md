@@ -1,4 +1,4 @@
-<h1>Matrix Graph Viewer 帮助文档</h1>
+<h1>Matrix Graph Viewer</h1>
 
 view pictures with naming conventions in grid format.
 
@@ -65,7 +65,7 @@ view pictures with naming conventions in grid format.
     "xAxisLabel": "l=`l'",
     "yAxisLabel": "k=`k'"
 }
-<code>
+</pre>
 
 
 <h1>TODO List</h1>
