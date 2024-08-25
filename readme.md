@@ -1,6 +1,8 @@
 <h1>Matrix Graph Viewer 帮助文档</h1>
 
-本程序提供了一个便捷的方法以快速查看批量参数不同的图片。
+view pictures with naming conventions in grid format.
+
+以网格形式批量查看有命名规范的图片。
 
 <h2>变量命名规范</h2>
 
