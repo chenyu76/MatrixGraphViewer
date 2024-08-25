@@ -1,8 +1,22 @@
 <h1>Matrix Graph Viewer</h1>
 
-view pictures with naming conventions in grid format.
+view pictures with naming conventions in grid format. like this.
 
-以网格形式批量查看有命名规范的图片。
+以网格形式批量查看有命名规范的图片。像这样
+
+<pre>
+         x=1               x=2               x=3
+   ┌───────────────┐ ┌───────────────┐ ┌───────────────┐
+   │               │ │               │ │               │
+y=1│  pic1,1.jpg   │ │  pic1,2.jpg   │ │  pic1,3.jpg   │
+   │               │ │               │ │               │
+   └───────────────┘ └───────────────┘ └───────────────┘
+   ┌───────────────┐ ┌───────────────┐ ┌───────────────┐
+   │               │ │               │ │               │
+y=2│  pic2,1.jpg   │ │  pic2,2.jpg   │ │  pic2,3.jpg   │
+   │               │ │               │ │               │
+   └───────────────┘ └───────────────┘ └───────────────┘
+</pre>
 
 <h2>变量命名规范</h2>
 
