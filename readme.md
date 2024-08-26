@@ -1,3 +1,5 @@
+<img src="./icon.svg" alt="icon" width="20%" />
+
 <h1>Matrix Graph Viewer</h1>
 
 view pictures with naming conventions in grid format. like this.
